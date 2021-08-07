@@ -11,7 +11,7 @@ public class Database {
     public void createIfNotExists(Connection connection, String database) {
         this.connection = connection;
         try {
-            PreparedStatement db = connection.prepareStatement("CREATE DATABASE IF NOT EXISTS " + database);
+            PreparedStatement db = connection.prepareStatement("CREATE DATABASE IF NOT EXISTS `" + database + "`");
             db.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -20,7 +20,7 @@ public class Database {
 
     public void deleteIfExists(String database) {
         try {
-            PreparedStatement db = this.connection.prepareStatement("DROP DATABASE IF EXISTS " + database);
+            PreparedStatement db = this.connection.prepareStatement("DROP DATABASE IF EXISTS `" + database + "`");
             db.execute();
         } catch (SQLException e) {
             e.printStackTrace();

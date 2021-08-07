@@ -43,7 +43,7 @@ public class Table {
 
     public void delete() {
         try {
-            this.connection.prepareStatement("DROP TABLE " + getTable()).execute();
+            this.connection.prepareStatement("DROP TABLE `" + this.getTable() + "`").execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
