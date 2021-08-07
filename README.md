@@ -147,7 +147,9 @@ public class Test extends JavaPlugin implements Listener {
 
     private void createDatabase() {
         Table table = new Table("breaked").setPrimaryKey("uuid").addColumn("uuid", "VARCHAR(36)").addColumn("blocks", "INTEGER");
-        EasySQL easySQL = new EasySQL().setHost("127.0.0.1").setPort(3306);
+        EasySQL easySQL = new EasySQL();
+        easySQL.setHost("127.0.0.1");
+        easySQL.setPort(3306);
         easySQL.setUser("root");
         easySQL.setPassword("password");
         easySQL.setDatabase("server");
