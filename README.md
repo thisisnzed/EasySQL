@@ -3,6 +3,9 @@
 A tool **based** on mysql-connector to **simplify** the use of **databases, tables & columns**.
 This tool **automatically** creates the **databases** & **tables** if they do not already exist ; so you don't have to create them manually.
 
+If you have any problem, DM me on discord (nz#1337)
+
+
 # Developers
 
 You can reuse EasySQL but make sure you comply with the [LICENSE](https://github.com/thisisnzed/EasySQL/blob/main/LICENSE).
