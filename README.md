@@ -17,7 +17,7 @@ You can reuse EasySQL but make sure you comply with the [LICENSE](https://github
     <dependency>
         <groupId>com.easysql</groupId>
         <artifactId>EasySQL</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.2</version>
     </dependency>
 </dependencies>
 ```
