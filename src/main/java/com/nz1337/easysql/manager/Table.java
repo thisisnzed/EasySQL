@@ -71,12 +71,31 @@ public class Table {
     }
 
     private String convert(String type) {
-        if (type.equalsIgnoreCase("integer") || type.equalsIgnoreCase("int")) type = "INTEGER";
-        if (type.equalsIgnoreCase("string") || type.equalsIgnoreCase("str")) type = "VARCHAR(255)";
-        if (type.equalsIgnoreCase("id") || type.equalsIgnoreCase("uuid")) type = "VARCHAR(36)";
-        if (type.equalsIgnoreCase("bool") || type.equalsIgnoreCase("boolean")) type = "TINYINT(1)";
-        if (type.equalsIgnoreCase("text") || type.equalsIgnoreCase("texte")) type = "TEXT";
-        if (type.equalsIgnoreCase("double")) type = "DOUBLE";
+        switch (type.toLowerCase()) {
+            case "integer":
+            case "int":
+                type = "INTEGER";
+                break;
+            case "string":
+            case "str":
+                type = "VARCHAR(255)";
+                break;
+            case "uuid":
+            case "id":
+                type = "VARCHAR(36)";
+                break;
+            case "boolean":
+            case "bool":
+                type = "TINYINT(1)";
+                break;
+            case "text":
+            case "texte":
+                type = "TEXT";
+                break;
+            case "double":
+                type = "DOUBLE";
+                break;
+        }
         return type;
     }
 }

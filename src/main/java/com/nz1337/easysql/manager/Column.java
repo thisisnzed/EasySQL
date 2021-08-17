@@ -91,6 +91,18 @@ public class Column {
         }
     }
 
+    public int countRows() {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(*) AS `rows` FROM `" + this.getTableName() + "`");
+            ResultSet results = preparedStatement.executeQuery();
+            results.next();
+            return results.getInt("rows");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public void makeCustomRequest(String request) {
         try {
             PreparedStatement db = this.connection.prepareStatement(request);
