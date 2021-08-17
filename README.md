@@ -1,6 +1,6 @@
 # Description
 
-A tool **based** on mysql-connector to **simplify** the use of **databases, tables & columns**.
+A tool **based** on mysql-connector to **simplify** the usage of **databases, tables & columns**.
 This tool **automatically** creates the **databases** & **tables** if they do not already exist ; so you don't have to create them manually.
 
 If you have any problem, DM me on discord (692109214104944650)
