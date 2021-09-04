@@ -1,6 +1,6 @@
 # Description
 
-A tool **based** on mysql-connector to **simplify** the use of **databases, tables & columns**.
+A tool **based** on mysql-connector to **simplify** the usage of **databases, tables & columns**.
 This tool **automatically** creates the **databases** & **tables** if they do not already exist ; so you don't have to create them manually.
 
 If you have any problem, DM me on discord (692109214104944650)
@@ -17,12 +17,14 @@ You can reuse EasySQL but make sure you comply with the [LICENSE](https://github
     <dependency>
         <groupId>com.easysql</groupId>
         <artifactId>EasySQL</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.2</version>
     </dependency>
 </dependencies>
 ```
 
 # Usage
+
+⚠️ **THERE ARE NOT ALL THE METHODS HERE. THESE ARE ONLY EXAMPLES.**
 
 ## Simple configure connection & database
 
