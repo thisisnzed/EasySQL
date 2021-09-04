@@ -24,6 +24,8 @@ You can reuse EasySQL but make sure you comply with the [LICENSE](https://github
 
 # Usage
 
+⚠️ **THERE ARE NOT ALL THE METHODS HERE. THESE ARE ONLY EXAMPLES.**
+
 ## Simple configure connection & database
 
 ```java
