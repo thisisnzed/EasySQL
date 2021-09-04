@@ -106,7 +106,7 @@ public class Column {
     public ArrayList<Object> getAll(String columnLabel) {
         ArrayList<Object> result = new ArrayList<>();
         try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement("SELECT * FROM `" + this.table + "`");
+            PreparedStatement preparedStatement = this.connection.prepareStatement("SELECT * FROM `" + this.getTableName() + "`");
             ResultSet results = preparedStatement.executeQuery();
             while (results.next()) result.add(results.getObject(columnLabel));
         } catch (SQLException e) {
