@@ -103,6 +103,18 @@ public class Column {
         return 0;
     }
 
+    public ArrayList<Object> getAll(String columnLabel) {
+        ArrayList<Object> result = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = this.connection.prepareStatement("SELECT * FROM `" + this.table + "`");
+            ResultSet results = preparedStatement.executeQuery();
+            while (results.next()) result.add(results.getObject(columnLabel));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public void makeCustomRequest(String request) {
         try {
             PreparedStatement db = this.connection.prepareStatement(request);
