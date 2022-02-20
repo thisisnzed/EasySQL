@@ -15,112 +15,112 @@ public class Column {
     private final String primaryKey;
     private final StringBuilder allColumns = new StringBuilder();
 
-    public Column(Table table, Connection connection, ArrayList<String> listedColumns) {
+    public Column(final Table table, final Connection connection, final ArrayList<String> listedColumns) {
         this.connection = connection;
         this.table = table;
         this.primaryKey = table.getPrimaryKey();
         this.tableName = this.table.getTable();
         listedColumns.forEach(column -> {
-            allColumns.append("`").append(column).append("`");
-            if (!listedColumns.get(listedColumns.size() - 1).equals(column)) allColumns.append(",");
+            this.allColumns.append("`").append(column).append("`");
+            if (!listedColumns.get(listedColumns.size() - 1).equals(column)) this.allColumns.append(",");
         });
     }
 
-    public boolean isExists(String column, Object value) {
+    public boolean isExists(final String column, final Object value) {
         try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement("SELECT * FROM `" + this.tableName + "` WHERE `" + column + "`=?");
+            final PreparedStatement preparedStatement = this.connection.prepareStatement("SELECT * FROM `" + this.tableName + "` WHERE `" + column + "`=?");
             preparedStatement.setObject(1, value);
             if (preparedStatement.executeQuery().next()) return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (final SQLException exception) {
+            exception.printStackTrace();
         }
         return false;
     }
 
-    public void insertDefault(Object... values) {
-        String primary = this.getPrimaryKey();
+    public void insertDefault(final Object... values) {
+        final String primary = this.getPrimaryKey();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM `" + this.tableName + "` WHERE `" + primary + "`=?");
+            final PreparedStatement preparedStatement = this.connection.prepareStatement("SELECT * FROM `" + this.tableName + "` WHERE `" + primary + "`=?");
             preparedStatement.setObject(1, values[0]);
             preparedStatement.executeQuery().next();
-            if (!isExists(primary, values[0])) {
-                StringBuilder unknownValue = new StringBuilder();
+            if (!this.isExists(primary, values[0])) {
+                final StringBuilder unknownValue = new StringBuilder();
                 for (int i = 0; i < countChars(this.allColumns.toString(), ',') + 1; i++) unknownValue.append("?,");
                 unknownValue.append(")");
-                PreparedStatement insert = connection.prepareStatement("INSERT INTO `" + this.tableName + "` (" + this.allColumns + ") VALUE (" + unknownValue.toString().replace(",)", ")"));
+                final PreparedStatement insert = this.connection.prepareStatement("INSERT INTO `" + this.tableName + "` (" + this.allColumns + ") VALUE (" + unknownValue.toString().replace(",)", ")"));
                 for (int i = 0; i < values.length; i++) insert.setObject(i + 1, values[i]);
                 insert.executeUpdate();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (final SQLException exception) {
+            exception.printStackTrace();
         }
     }
 
-    public void editValue(String searchedColumn, Object searchedValue, String editedColumn, Object newValue) {
+    public void editValue(final String searchedColumn, final Object searchedValue, final String editedColumn, final Object newValue) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `" + this.getTableName() + "` SET `" + editedColumn + "`=? WHERE `" + searchedColumn + "`=?");
+            final PreparedStatement preparedStatement = this.connection.prepareStatement("UPDATE `" + this.getTableName() + "` SET `" + editedColumn + "`=? WHERE `" + searchedColumn + "`=?");
             preparedStatement.setObject(1, newValue);
             preparedStatement.setObject(2, searchedValue);
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (final SQLException exception) {
+            exception.printStackTrace();
         }
     }
 
-    public Object getValue(String column, Object value, String desiredValue) {
+    public Object getValue(final String column, final Object value, final String desiredValue) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM `" + this.tableName + "` WHERE `" + column + "`=?");
+            final PreparedStatement preparedStatement = this.connection.prepareStatement("SELECT * FROM `" + this.tableName + "` WHERE `" + column + "`=?");
             preparedStatement.setObject(1, value);
-            ResultSet results = preparedStatement.executeQuery();
+            final ResultSet results = preparedStatement.executeQuery();
             results.next();
             return results.getObject(desiredValue);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (final SQLException exception) {
+            exception.printStackTrace();
         }
         return null;
     }
 
-    public void delete(String column, Object value) {
-        if (!isExists(column, value)) return;
+    public void delete(final String column, final Object value) {
+        if (!this.isExists(column, value)) return;
         try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement("DELETE FROM `" + this.tableName + "` WHERE `" + this.tableName + "`.`" + column + "`=?");
+            final PreparedStatement preparedStatement = this.connection.prepareStatement("DELETE FROM `" + this.tableName + "` WHERE `" + this.tableName + "`.`" + column + "`=?");
             preparedStatement.setObject(1, value);
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (final SQLException exception) {
+            exception.printStackTrace();
         }
     }
 
     public int countRows() {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(*) AS `rows` FROM `" + this.getTableName() + "`");
-            ResultSet results = preparedStatement.executeQuery();
+            final PreparedStatement preparedStatement = this.connection.prepareStatement("SELECT COUNT(*) AS `rows` FROM `" + this.getTableName() + "`");
+            final ResultSet results = preparedStatement.executeQuery();
             results.next();
             return results.getInt("rows");
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (final SQLException exception) {
+            exception.printStackTrace();
         }
         return 0;
     }
 
-    public ArrayList<Object> getAll(String columnLabel) {
-        ArrayList<Object> result = new ArrayList<>();
+    public ArrayList<Object> getAll(final String columnLabel) {
+        final ArrayList<Object> result = new ArrayList<>();
         try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement("SELECT * FROM `" + this.getTableName() + "`");
-            ResultSet results = preparedStatement.executeQuery();
+            final PreparedStatement preparedStatement = this.connection.prepareStatement("SELECT * FROM `" + this.getTableName() + "`");
+            final ResultSet results = preparedStatement.executeQuery();
             while (results.next()) result.add(results.getObject(columnLabel));
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (final SQLException exception) {
+            exception.printStackTrace();
         }
         return result;
     }
 
-    public void makeCustomRequest(String request) {
+    public void makeCustomRequest(final String request) {
         try {
-            PreparedStatement db = this.connection.prepareStatement(request);
-            db.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            PreparedStatement prepareStatement = this.connection.prepareStatement(request);
+            prepareStatement.execute();
+        } catch (final SQLException exception) {
+            exception.printStackTrace();
         }
     }
 
@@ -136,11 +136,9 @@ public class Column {
         return this.primaryKey;
     }
 
-    private int countChars(String s, char c) {
-        AtomicInteger i = new AtomicInteger();
-        s.chars().forEach(chars -> {
-            if (chars == c) i.getAndIncrement();
-        });
+    private int countChars(final String s, final char c) {
+        final AtomicInteger i = new AtomicInteger();
+        s.chars().filter(chars -> chars == c).forEach(chars -> i.getAndIncrement());
         return i.get();
     }
 }

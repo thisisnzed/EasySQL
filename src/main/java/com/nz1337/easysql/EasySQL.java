@@ -11,46 +11,56 @@ import java.util.Arrays;
 
 public class EasySQL {
 
-    private final ArrayList<Table> tables = new ArrayList<>();
+    private final ArrayList<Table> tables;
     private Connection connection;
     private Database database;
-    private String host = "127.0.0.1";
-    private String user = "root";
-    private String password = "password";
-    private String databaseName = "database";
-    private int port = 3306;
-    private boolean encoder = true;
+    private String host;
+    private String user;
+    private String password;
+    private String databaseName;
+    private int port;
+    private boolean encoder;
+
+    public EasySQL() {
+        this.tables = new ArrayList<>();
+        this.host = "127.0.0.1";
+        this.user = "root";
+        this.password = "password";
+        this.databaseName = "database";
+        this.port = 3306;
+        this.encoder = true;
+    }
 
     public void connect() {
         try {
             synchronized (this) {
-                if (getConnection() != null && !getConnection().isClosed()) {
+                if (this.getConnection() != null && !this.getConnection().isClosed()) {
                     System.err.println("[EasySQL] An SQL connection is already active!");
                     return;
                 }
                 Class.forName("com.mysql.jdbc.Driver");
-                String url = "jdbc:mysql://" + this.host + ":" + this.port;
-                String encoding = this.encoder ? "?useUnicode=true&characterEncoding=utf8" : "";
-                setConnection(DriverManager.getConnection(url + encoding, this.user, this.password));
+                final String url = "jdbc:mysql://" + this.host + ":" + this.port;
+                final String encoding = this.encoder ? "?useUnicode=true&characterEncoding=utf8" : "";
+                this.setConnection(DriverManager.getConnection(url + encoding, this.user, this.password));
                 this.database = new Database();
                 this.database.createIfNotExists(this.getConnection(), this.databaseName);
-                setConnection(DriverManager.getConnection(url + "/" + this.databaseName + encoding, this.user, this.password));
-                this.tables.forEach(tableCreator -> tableCreator.createIfNotExists(connection));
+                this.setConnection(DriverManager.getConnection(url + "/" + this.databaseName + encoding, this.user, this.password));
+                this.tables.forEach(tableCreator -> tableCreator.createIfNotExists(this.connection));
             }
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (final SQLException | ClassNotFoundException exception) {
+            exception.printStackTrace();
         }
     }
 
     public void close() {
         try {
             this.getConnection().close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (final SQLException exception) {
+            exception.printStackTrace();
         }
     }
 
-    /*public Column getColumns(Table table) {
+    /*public Column getColumns(final Table table) {
         return this.columns.stream().filter(column -> column.getTable().equals(table.getTable())).findFirst().orElse(null);
     }*/
 
@@ -58,37 +68,37 @@ public class EasySQL {
         this.database.deleteIfExists(this.databaseName);
     }
 
-    public EasySQL createDefaultTables(Table... table) {
+    public EasySQL createDefaultTables(final Table... table) {
         this.tables.addAll(Arrays.asList(table));
         return this;
     }
 
-    public EasySQL setHost(String host) {
+    public EasySQL setHost(final String host) {
         this.host = host;
         return this;
     }
 
-    public EasySQL setPassword(String password) {
+    public EasySQL setPassword(final String password) {
         this.password = password;
         return this;
     }
 
-    public EasySQL setUser(String user) {
+    public EasySQL setUser(final String user) {
         this.user = user;
         return this;
     }
 
-    public EasySQL setDatabase(String databaseName) {
+    public EasySQL setDatabase(final String databaseName) {
         this.databaseName = databaseName;
         return this;
     }
 
-    public EasySQL setPort(int port) {
+    public EasySQL setPort(final int port) {
         this.port = port;
         return this;
     }
 
-    public EasySQL setEncoder(boolean encoder) {
+    public EasySQL setEncoder(final boolean encoder) {
         this.encoder = encoder;
         return this;
     }
@@ -97,7 +107,7 @@ public class EasySQL {
         return connection;
     }
 
-    private void setConnection(Connection connection) {
+    private void setConnection(final Connection connection) {
         this.connection = connection;
     }
 }

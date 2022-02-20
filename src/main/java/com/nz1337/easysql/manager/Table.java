@@ -9,34 +9,36 @@ public class Table {
 
     private String primaryKey;
     private final String tableName;
-    private final StringBuilder columns = new StringBuilder();
-    private final ArrayList<String> listedColumns = new ArrayList<>();
+    private final StringBuilder columns;
+    private final ArrayList<String> listedColumns;
     private Connection connection;
     private Column column;
 
-    public Table(String tableName) {
+    public Table(final String tableName) {
         this.tableName = tableName;
+        this.columns = new StringBuilder();
+        this.listedColumns = new ArrayList<>();
     }
 
-    public void createIfNotExists(Connection connection) {
+    public void createIfNotExists(final Connection connection) {
         this.connection = connection;
-        if (this.primaryKey.equals("")) this.primaryKey = listedColumns.get(0);
+        if (this.primaryKey.equals("")) this.primaryKey = this.listedColumns.get(0);
         try {
             connection.prepareStatement("CREATE TABLE IF NOT EXISTS `" + this.tableName + "` (" + this.columns + "PRIMARY KEY (`" + this.primaryKey + "`))").execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (final SQLException exception) {
+            exception.printStackTrace();
         }
         this.column = new Column(this, this.connection, this.listedColumns);
     }
 
-    public Table addColumn(String columnName, String type) {
-        type = convert(type);
+    public Table addColumn(final String columnName, String type) {
+        type = this.convert(type);
         this.columns.append("`").append(columnName).append("`").append(" ").append(type).append(", ");
         this.listedColumns.add(columnName);
         return this;
     }
 
-    public Table setPrimaryKey(String primaryKey) {
+    public Table setPrimaryKey(final String primaryKey) {
         this.primaryKey = primaryKey;
         return this;
     }
@@ -44,8 +46,8 @@ public class Table {
     public void delete() {
         try {
             this.connection.prepareStatement("DROP TABLE `" + this.getTable() + "`").execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (final SQLException exception) {
+            exception.printStackTrace();
         }
     }
 
@@ -61,12 +63,12 @@ public class Table {
         return this.column;
     }
 
-    public void makeCustomRequest(String request) {
+    public void makeCustomRequest(final String request) {
         try {
-            PreparedStatement db = this.connection.prepareStatement(request);
-            db.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            final PreparedStatement prepareStatement = this.connection.prepareStatement(request);
+            prepareStatement.execute();
+        } catch (final SQLException exception) {
+            exception.printStackTrace();
         }
     }
 
