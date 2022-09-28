@@ -59,7 +59,7 @@ easySQL.createDefaultTables(playerTable, demoTable); //Here you can enter the nu
 As you can see above, you can use "int" instead of "INTEGER", "string" instead of "VARCHAR(255)", "double" instead of "DOUBLE" and more. 
 But you can also insert the default types like "INTEGER", "VARCHAR(36)"...
 
-## Etablish connection
+## Establish connection
 
 ```java
 easySQL.connect();
