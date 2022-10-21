@@ -1,10 +1,7 @@
 # Description
 
-A lib **based** on mysql-connector to **simplify** the usage of **databases, tables & columns**.
-This lib **automatically** creates the **databases** & **tables** if they do not already exist ; so you don't have to create them manually.
-
-If you have any problem, DM me on discord (692109214104944650)
-
+A framework **based** on mysql-connector to **simplify** the usage of **databases, tables & columns**.
+This framework **automatically** creates the **databases** & **tables** if they do not already exist ; so you don't have to create them manually.
 
 # Developers
 
