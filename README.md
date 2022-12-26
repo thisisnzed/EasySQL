@@ -1,10 +1,7 @@
 # Description
 
-A tool **based** on mysql-connector to **simplify** the usage of **databases, tables & columns**.
-This tool **automatically** creates the **databases** & **tables** if they do not already exist ; so you don't have to create them manually.
-
-If you have any problem, DM me on discord (692109214104944650)
-
+A framework **based** on mysql-connector to **simplify** the usage of **databases, tables & columns**.
+This framework **automatically** creates the **databases** & **tables** if they do not already exist ; so you don't have to create them manually.
 
 # Developers
 
@@ -29,7 +26,7 @@ You can reuse EasySQL but make sure you comply with the [LICENSE](https://github
 ## Simple configure connection & database
 
 ```java
-EasySQL easySQL = new EasySQL();
+final EasySQL easySQL = new EasySQL();
 easySQL.setHost("127.0.0.1");
 easySQL.setPort(3306);
 easySQL.setUser("root");
@@ -40,26 +37,26 @@ easySQL.setDatabase("demo");
 ## Add specific tables
 
 ```java
-//First table
-Table playerTable = new Table("players");
+// First table
+final Table playerTable = new Table("players");
 playerTable.setPrimaryKey("uuid");
 playerTable.addColumn("uuid", "VARCHAR(36)");
 playerTable.addColumn("kills", "INTEGER");
 playerTable.addColumn("deaths", "INTEGER");
 
-//Second table
-Table demoTable = new Table("demo2");
+// Second table
+final Table demoTable = new Table("demo2");
 demoTable.setPrimaryKey("uuid");
 demoTable.addColumn("uuid", "VARCHAR(36)");
 demoTable.addColumn("totalConnections", "INTEGER");
 
-//Create the tables if they do not exist
+// Create the tables if they do not exist
 easySQL.createDefaultTables(playerTable, demoTable); //Here you can enter the number of tables you want 
 ```
 As you can see above, you can use "int" instead of "INTEGER", "string" instead of "VARCHAR(255)", "double" instead of "DOUBLE" and more. 
 But you can also insert the default types like "INTEGER", "VARCHAR(36)"...
 
-## Etablish connection
+## Establish connection
 
 ```java
 easySQL.connect();
@@ -86,7 +83,7 @@ playerTable.delete();
 ## Insert default VALUES
 
 ```java
-Column column = playerTable.getColumns();
+final Column column = playerTable.getColumns();
 column.insertDefault("cdb4810e-b975-4fbd-97be-3aa838a017aa", 0, 0); //uuid, kills, deaths --> see above to understand the order of values
 ```
 
@@ -147,12 +144,12 @@ public class Test extends JavaPlugin implements Listener {
 
     public void onEnable() {
         this.getServer().getPluginManager().registerEvents(this, this);
-        createDatabase();
+        this.createDatabase();
     }
 
     private void createDatabase() {
-        Table table = new Table("breaked").setPrimaryKey("uuid").addColumn("uuid", "VARCHAR(36)").addColumn("blocks", "INTEGER");
-        EasySQL easySQL = new EasySQL();
+        final Table table = new Table("breaked").setPrimaryKey("uuid").addColumn("uuid", "VARCHAR(36)").addColumn("blocks", "INTEGER");
+        final EasySQL easySQL = new EasySQL();
         easySQL.setHost("127.0.0.1");
         easySQL.setPort(3306);
         easySQL.setUser("root");
@@ -160,22 +157,25 @@ public class Test extends JavaPlugin implements Listener {
         easySQL.setDatabase("server");
         easySQL.createDefaultTables(table);
         easySQL.connect();
+        
         this.column = table.getColumns();
     }
 
     @EventHandler
-    public void onConnect(PlayerJoinEvent event) {
-        String uuid = event.getPlayer().getUniqueId().toString();
+    public void onConnect(final PlayerJoinEvent event) {
+        final String uuid = event.getPlayer().getUniqueId().toString();
         this.column.insertDefault(uuid, 0);
     }
 
     @EventHandler
-    public void onBreak(BlockBreakEvent event) {
-        String uuid = event.getPlayer().getUniqueId().toString();
-        int oldBreakedBlocks = (int) this.column.getValue("uuid", uuid, "blocks");
+    public void onBreak(final BlockBreakEvent event) {
+        final String uuid = event.getPlayer().getUniqueId().toString();
+        final int oldBreakedBlocks = (int) this.column.getValue("uuid", uuid, "blocks");
         System.out.println("Old value for " + uuid + " : " + oldBreakedBlocks);
+        
         this.column.editValue("uuid", uuid, "blocks", oldBreakedBlocks + 1);
-        int newbreakedBlocks = (int) this.column.getValue("uuid", uuid, "blocks");
+        
+        final int newbreakedBlocks = (int) this.column.getValue("uuid", uuid, "blocks");
         System.out.println("New value for " + uuid + " : " + newbreakedBlocks);
     }
 }
