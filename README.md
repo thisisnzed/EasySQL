@@ -132,7 +132,7 @@ Then, for each broken block, add 1 to "blocks" in database and print that value.
 
 ```java
 import com.nz1337.easysql.*;
-import com.nz1337.easysql.manager.*;
+import com.nz1337.easysql.objects.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.*;
 import org.bukkit.event.player.*;
