@@ -1,4 +1,4 @@
-package com.nz1337.easysql.manager;
+package com.nz1337.easysql.objects;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

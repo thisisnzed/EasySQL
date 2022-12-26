@@ -1,7 +1,7 @@
 package com.nz1337.easysql;
 
-import com.nz1337.easysql.manager.Database;
-import com.nz1337.easysql.manager.Table;
+import com.nz1337.easysql.objects.Database;
+import com.nz1337.easysql.objects.Table;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
